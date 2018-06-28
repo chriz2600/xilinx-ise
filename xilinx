@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker run --rm -it -v $(pwd):/build chriz2600/xilinx-ise:latest /usr/local/bin/wrapper "$@"

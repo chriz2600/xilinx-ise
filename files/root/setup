@@ -1,0 +1,26 @@
+#!/usr/bin/expect
+
+set timeout -1
+
+spawn /root/install/bin/lin64/batchxsetup -batch config
+
+set count 23; set done 0; set todo $count;
+while {$count > 0 } {
+    set done [expr $done+1];
+    expect "Press Enter key to continue" { send "\r" }
+    puts "\n\ndone : $done/$todo\n\n";
+    set count [expr $count-1];
+}
+
+expect "I accept and agree to the terms and conditions above." { send "y\r" }
+
+set count 2566; set done 0; set todo $count;
+while {$count > 0 } {
+    set done [expr $done+1];
+    expect "Press Enter key to continue" { send "\r" }
+    puts "\n\ndone : $done/$todo\n\n";
+    set count [expr $count-1];
+}
+
+expect "I accept and agree to the terms and conditions above." { send "y\r" }
+expect eof

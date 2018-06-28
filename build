@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+
+DOCKER_TARGET=chriz2600
+IMAGE_NAME=xilinx-ise
+IMAGE_TAG=14.7
+
+docker build --rm -t ${DOCKER_TARGET}/${IMAGE_NAME}:${IMAGE_TAG} .
+
+#if command -v docker-squash ; then
+#    echo "Running docker-squash as root"
+#    sudo docker-squash ${DOCKER_TARGET}/${IMAGE_NAME}:${IMAGE_TAG}
+#fi
+
+docker tag ${DOCKER_TARGET}/${IMAGE_NAME}:${IMAGE_TAG} ${DOCKER_TARGET}/${IMAGE_NAME}:latest
+
+read -n1 -p "Do you want to push the image to the registry now [yN]? " answer
+if [[ "${answer:-n}" == "y" ]]
+then
+    docker push ${DOCKER_TARGET}/${IMAGE_NAME}:${IMAGE_TAG}
+    docker push ${DOCKER_TARGET}/${IMAGE_NAME}:latest
+fi
