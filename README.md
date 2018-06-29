@@ -21,16 +21,16 @@ To build the docker image, do the following:
     - [Windows 7/XP/Server and Linux Install Data B - File 3/4](https://www.xilinx.com/member/forms/download/xef.html?filename=Xilinx_ISE_DS_14.7_1015_1-3.zip.xz)
     - [Windows 7/XP/Server and Linux Install Data C - File 4/4](https://www.xilinx.com/member/forms/download/xef.html?filename=Xilinx_ISE_DS_14.7_1015_1-4.zip.xz)
 
-1. Copy Downloads to local install folder:
+1. Copy Downloads to xilinx-installer folder:
     ```
-    cp ~/Downloads/Xilinx_ISE_DS_14.7_1015_* files/root/install/
+    cp ~/Downloads/Xilinx_ISE_DS_14.7_1015_* xilinx-installer/
     ```
 
 1. Create a free license via the [Licensing Solution Center](https://www.xilinx.com/getlicense)
 
 1. Add license:
     ```
-    cp ~/Downloads/Xilinx.lic files/root/.Xilinx/
+    cp ~/Downloads/Xilinx.lic xilinx-installer/
     ```
 
 1. Run docker build:
