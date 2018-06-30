@@ -26,13 +26,6 @@ To build the docker image, do the following:
     cp ~/Downloads/Xilinx_ISE_DS_14.7_1015_* xilinx-installer/
     ```
 
-1. Create a free license via the [Licensing Solution Center](https://www.xilinx.com/getlicense)
-
-1. Add license:
-    ```
-    cp ~/Downloads/Xilinx.lic xilinx-installer/
-    ```
-
 1. Run docker build:
     ```
     ./build
@@ -60,3 +53,13 @@ To build the docker image, do the following:
     [-autoassign] [ise|pa]
     user@machine ~/xilinx-ise #
     ```
+
+1. Create a free license via the [Licensing Solution Center](https://www.xilinx.com/getlicense)
+
+1. Add license to your home dir:
+    ```
+    mkdir -p $HOME/.Xilinx
+    cp ~/Downloads/Xilinx.lic $HOME/.Xilinx/
+    ```
+    The license is mounted into the docker container from `$HOME/.Xilinx/Xilinx.lic` by default. If you like to use another location set up the `XILINX_LIC` environment variable to point to the `Xilinx.lic` file.
+
