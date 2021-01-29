@@ -2,7 +2,7 @@
 
 set timeout -1
 
-spawn /root/install/bin/lin64/batchxsetup -batch config
+spawn /root/install/bin/lin64/batchxsetup -batch install/config
 
 set count 23; set done 0; set todo $count;
 while {$count > 0 } {

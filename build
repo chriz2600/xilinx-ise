@@ -15,6 +15,10 @@ HTTP_SERVER_PID=$!
 trap "echo 'stopping $HTTP_SERVER_PID' ; if [ $HTTP_SERVER_PID ] ; then kill $HTTP_SERVER_PID ; fi" SIGINT SIGTERM EXIT
 cd ..
 
+# Lint
+docker run --rm -i hadolint/hadolint < Dockerfile || true
+
+# Build
 docker build --network host --rm -t ${DOCKER_TARGET}/${IMAGE_NAME}:${IMAGE_TAG} .
 docker tag ${DOCKER_TARGET}/${IMAGE_NAME}:${IMAGE_TAG} ${DOCKER_TARGET}/${IMAGE_NAME}:latest
 
