@@ -4,27 +4,27 @@ set -e
 
 cd $(dirname $0)
 
-DOCKER_TARGET=${DOCKER_TARGET:-docker.i74.de:5000}
-IMAGE_NAME=xilinx-ise
-IMAGE_TAG=14.7
+docker_target=${docker_target:-docker.i74.de:5000}
+image_name=xilinx-ise
+image_tag=14.7
 
-# start small webserver to hold install files
+# Start small webserver to hold install files
 cd xilinx-installer
 python3 -m http.server 8765 --bind 127.0.0.1 >/dev/null 2>&1 &
-HTTP_SERVER_PID=$!
-trap "echo 'stopping $HTTP_SERVER_PID' ; if [ $HTTP_SERVER_PID ] ; then kill $HTTP_SERVER_PID ; fi" SIGINT SIGTERM EXIT
+http_server_pid=$!
+trap "echo 'stopping $http_server_pid' ; if [ $http_server_pid ] ; then kill $http_server_pid ; fi" SIGINT SIGTERM EXIT
 cd ..
 
 # Lint
 docker run --rm -i hadolint/hadolint < Dockerfile || true
 
 # Build
-docker build --network host --rm -t ${DOCKER_TARGET}/${IMAGE_NAME}:${IMAGE_TAG} .
-docker tag ${DOCKER_TARGET}/${IMAGE_NAME}:${IMAGE_TAG} ${DOCKER_TARGET}/${IMAGE_NAME}:latest
+docker build --network host --rm -t ${docker_target}/${image_name}:${image_tag} .
+docker tag ${docker_target}/${image_name}:${image_tag} ${docker_target}/${image_name}:latest
 
 read -n1 -p "Do you want to push the image to the registry now [yN]? " answer
 if [[ "${answer:-n}" == "y" ]]
 then
-    docker push ${DOCKER_TARGET}/${IMAGE_NAME}:${IMAGE_TAG}
-    docker push ${DOCKER_TARGET}/${IMAGE_NAME}:latest
+    docker push ${docker_target}/${image_name}:${image_tag}
+    docker push ${docker_target}/${image_name}:latest
 fi
