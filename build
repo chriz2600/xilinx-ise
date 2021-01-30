@@ -37,14 +37,17 @@ check_tools docker python3
 
 # Parse arguments
 push=
+force=
 
-while getopts hp-: arg; do
+while getopts fhp-: arg; do
     case $arg in
+        f) force=y ;;
         h) usage; exit ;;
         p) push=y ;;
         -)
             long_optarg="${OPTARG#*=}"
             case $OPTARG in
+                force) force=y ;;
                 help) usage; exit;;
                 push) push=y ;;
                 '') break ;;
@@ -65,7 +68,10 @@ cd ..
 docker run --rm -i hadolint/hadolint < Dockerfile || true
 
 # Build
-docker build --network host --rm -t ${docker_target}/${image_name}:${image_tag} .
+flags="--network host --rm"
+[ "x$force" != "x" ] && flags="--no-cache $flags"
+
+docker build $flags -t ${docker_target}/${image_name}:${image_tag} .
 docker tag ${docker_target}/${image_name}:${image_tag} ${docker_target}/${image_name}:latest
 
 if [ "x$push" != "x" ]; then
