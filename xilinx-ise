@@ -18,8 +18,10 @@ cmd="$@"
 docker run \
     --rm \
     -it \
+    -e DISPLAY=$DISPLAY \
     -e TERM=$TERM \
     -v $HOME:$HOME:rw \
+    -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
     ${docker_target}/${image_name}-${USER}:latest \
     bash -c "
         . /opt/Xilinx/14.7/ISE_DS/settings64.sh >/dev/null &&

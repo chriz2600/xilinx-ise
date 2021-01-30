@@ -56,3 +56,12 @@ To build the docker image, do the following:
     cp ~/Downloads/Xilinx.lic $HOME/.Xilinx/
     ```
     The home directory is mounted into the docker container including the `$HOME/.Xilinx/Xilinx.lic` file.
+
+1. X11 is exposed to the docker container, so that graphical applications such as the ISE Project Navigator can run:
+    ```
+    ./xilinx-ise ise
+    ```
+
+    Which launches the GUI:
+    ![](doc/ise-project-navigator.png)
+   
