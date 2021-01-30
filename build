@@ -58,11 +58,9 @@ while getopts fhp-: arg; do
 done
 
 # Start small webserver to hold install files
-cd xilinx-installer
-python3 -m http.server 8765 --bind 127.0.0.1 >/dev/null 2>&1 &
+( cd xilinx-installer; python3 -m http.server 8765 --bind 127.0.0.1 >/dev/null 2>&1 ) &
 http_server_pid=$!
-trap "echo 'stopping $http_server_pid' ; if [ $http_server_pid ] ; then kill $http_server_pid ; fi" SIGINT SIGTERM EXIT
-cd ..
+trap "[ $http_server_pid ] && kill $http_server_pid" SIGINT SIGTERM EXIT
 
 # Lint
 docker run --rm -i hadolint/hadolint < Dockerfile || true
