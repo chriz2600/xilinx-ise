@@ -9,6 +9,15 @@ docker_target=${docker_target:-docker.i74.de:5000}
 image_name=xilinx-ise
 image_tag=14.7
 
+## Prints the usage message
+usage() {
+    echo "Usage $0 [OPTIONS]"
+    echo
+    echo "Options:"
+    echo "  -h,--help  Prints this message."
+    echo
+}
+
 ## Checks that the tools listed in arguments are all installed.
 check_tools() {
     for cmd in "$@"; do
@@ -24,6 +33,21 @@ check_tools() {
 
 # Check environment
 check_tools docker python3
+
+# Parse arguments
+while getopts h-: arg; do
+    case $arg in
+        h) usage; exit ;;
+        -)
+            long_optarg="${OPTARG#*=}"
+            case $OPTARG in
+                help) usage; exit;;
+                '') break ;;
+                *) >&2 echo "Illegal option --$OPTARG"; exit 1 ;;
+            esac ;;
+        \?) usage; exit 1;;
+    esac
+done
 
 # Start small webserver to hold install files
 cd xilinx-installer
