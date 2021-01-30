@@ -4,9 +4,7 @@ FROM ubuntu:14.04
 # hadolint ignore=DL3008
 RUN apt-get update && \
     apt-get -qq install -y --no-install-recommends \
-        emacs24-nox \
         expect \
-        git \
         libfontconfig1 \
         libfreetype6 \
         libglib2.0-0 \
