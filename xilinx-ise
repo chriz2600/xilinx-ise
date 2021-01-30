@@ -2,10 +2,13 @@
 
 XILINX_LIC=${XILINX_LIC:-$HOME/.Xilinx/Xilinx.lic}
 
+docker_target=${docker_target:-docker.i74.de:5000}
+image_name=xilinx-ise
+
 docker run \
     --rm \
     -it \
     -v $XILINX_LIC:/root/.Xilinx/Xilinx.lic \
     -v ${PWD}:/build \
-    docker.i74.de:5000/xilinx-ise:latest \
+    ${docker_target}/${image_name}:latest \
     /usr/local/bin/wrapper "$@"
