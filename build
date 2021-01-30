@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 set -u
@@ -60,7 +60,7 @@ done
 # Start small webserver to hold install files
 ( cd xilinx-installer; python3 -m http.server 8765 --bind 127.0.0.1 >/dev/null 2>&1 ) &
 http_server_pid=$!
-trap "[ $http_server_pid ] && kill $http_server_pid" SIGINT SIGTERM EXIT
+trap "[ $http_server_pid ] && kill $http_server_pid" EXIT INT TERM
 
 # Lint
 docker run --rm -i hadolint/hadolint < Dockerfile || true
