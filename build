@@ -9,6 +9,22 @@ docker_target=${docker_target:-docker.i74.de:5000}
 image_name=xilinx-ise
 image_tag=14.7
 
+## Checks that the tools listed in arguments are all installed.
+check_tools() {
+    for cmd in "$@"; do
+        command -v $cmd >/dev/null || {
+            >&2 echo "The following tools must be installed:"
+            >&2 echo "    $@"
+            >&2 echo "    Failed to find $cmd"
+            >&2 echo
+            exit 1
+        }
+    done
+}
+
+# Check environment
+check_tools docker python3
+
 # Start small webserver to hold install files
 cd xilinx-installer
 python3 -m http.server 8765 --bind 127.0.0.1 >/dev/null 2>&1 &
