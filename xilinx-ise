@@ -1,0 +1,30 @@
+#!/bin/bash
+
+docker_target=${docker_target:-docker.i74.de:5000}
+image_name=xilinx-ise
+
+# Build the execution image
+docker build -t "${docker_target}/${image_name}-${USER}:latest" - >/dev/null << EOF
+FROM ${docker_target}/${image_name}:latest
+USER root
+RUN usermod --login $USER --move-home --home $HOME user \
+  && echo $USER ALL= NOPASSWD: ALL >> /etc/sudoers
+USER $USER
+WORKDIR $HOME
+EOF
+
+# Run the image
+cmd="$@"
+docker run \
+    --rm \
+    -it \
+    -e DISPLAY=$DISPLAY \
+    -e TERM=$TERM \
+    -v $HOME:$HOME:rw \
+    -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+    ${docker_target}/${image_name}-${USER}:latest \
+    bash -c "
+        . /opt/Xilinx/14.7/ISE_DS/settings64.sh >/dev/null &&
+        unset LD_LIBRARY_PATH &&
+        $cmd
+        "

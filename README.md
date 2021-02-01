@@ -6,10 +6,10 @@ I included a `xilinx` shell script, which allows execution of e.g. `impact` insi
 
 Example:
 ```
-xilinx impact -batch my.cmd
+xilinx-ise impact -batch my.cmd
 ```
-`xilinx` command is executed in the current working directory. 
-Just copy `xilinx` to a directory in your `PATH`.
+`xilinx-ise` command is executed in the current working directory.
+Just copy `xilinx-ise` to a directory in your `PATH`.
 
 To build the docker image, do the following:
 
@@ -34,15 +34,10 @@ To build the docker image, do the following:
 
 1. After that you can test this with:
     ```
-    ./xilinx impact -h
+    ./xilinx-ise impact -h
     ```
     to see this output:
     ```
-    user@machine ~/xilinx-ise # ./xilinx impact -h
-    . /opt/Xilinx/14.7/ISE_DS/common/.settings64.sh /opt/Xilinx/14.7/ISE_DS/common
-    . /opt/Xilinx/14.7/ISE_DS/EDK/.settings64.sh /opt/Xilinx/14.7/ISE_DS/EDK
-    . /opt/Xilinx/14.7/ISE_DS/PlanAhead/.settings64.sh /opt/Xilinx/14.7/ISE_DS/PlanAhead
-    . /opt/Xilinx/14.7/ISE_DS/ISE/.settings64.sh /opt/Xilinx/14.7/ISE_DS/ISE
     Release 14.7 - iMPACT P.20131013 (lin64)
     Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
     Usage: impact [-batch {<file>}] [-c|-cdf <file>] [-intstyle] [-j|-jedec <file>]
@@ -51,7 +46,6 @@ To build the docker image, do the following:
     [-mode bscan|smap|sserial|cf|mpm|bsfile|dtconfig|pff|promfile|config|file]
     [-baud 9600|19200|38400|57600|auto] {-pref <name_value>} [-ipf <file>]
     [-autoassign] [ise|pa]
-    user@machine ~/xilinx-ise #
     ```
 
 1. Create a free license via the [Licensing Solution Center](https://www.xilinx.com/getlicense)
@@ -61,5 +55,13 @@ To build the docker image, do the following:
     mkdir -p $HOME/.Xilinx
     cp ~/Downloads/Xilinx.lic $HOME/.Xilinx/
     ```
-    The license is mounted into the docker container from `$HOME/.Xilinx/Xilinx.lic` by default. If you like to use another location set up the `XILINX_LIC` environment variable to point to the `Xilinx.lic` file.
+    The home directory is mounted into the docker container including the `$HOME/.Xilinx/Xilinx.lic` file.
 
+1. X11 is exposed to the docker container, so that graphical applications such as the ISE Project Navigator can run:
+    ```
+    ./xilinx-ise ise
+    ```
+
+    Which launches the GUI:
+    ![](doc/ise-project-navigator.png)
+   
